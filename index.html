@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Infernum Perdition Training Centre (I.P.T.C)</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-emblem">I.P.T.C</div>
+      <div>
+        <h1>Infernum Perdition Training Centre</h1>
+        <span>Recruit Onboarding &amp; Tactical Readiness</span>
+      </div>
+    </div>
+
+    <div id="userControls" class="user-pill hidden">
+      <span id="userBadge">Loading recruit...</span>
+      <button id="logoutBtn" class="btn btn-secondary btn-small" type="button">Clear Key</button>
+    </div>
+  </header>
+
+  <!-- Step 0: API Gatekeeper Screen -->
+  <main id="gateScreen" class="gate-wrapper">
+    <section class="gate-card">
+      <h2>Faction Clearance Required</h2>
+      <p>
+        Enter your <strong>Torn Public API Key</strong> to verify Infernum Perdition membership.
+        Your key stays strictly inside your own browser's local storage and is only sent directly to <code>api.torn.com</code>.
+      </p>
+
+      <div id="gateError" class="error-msg hidden"></div>
+
+      <form id="apiLoginForm">
+        <input
+          type="password"
+          id="apiKeyInput"
+          placeholder="Paste 16-character Public API Key..."
+          maxlength="32"
+          required
+        />
+        <button type="submit" id="verifyBtn" class="btn" style="width: 100%; justify-content: center;">
+          Verify Faction Access
+        </button>
+      </form>
+    </section>
+  </main>
+
+  <!-- Main Recruit Portal (Hidden until API verified) -->
+  <main id="portalScreen" class="container hidden">
+
+    <!-- Overall Progress Tracker -->
+    <section class="progress-panel">
+      <div class="progress-header">
+        <h2>Training Clearance Progress</h2>
+        <span id="progressPercent" class="progress-percent">0%</span>
+      </div>
+      <div class="progress-track">
+        <div id="progressFill" class="progress-fill"></div>
+      </div>
+    </section>
+
+    <!-- Phase 1: Essential Tools & Comms Checklist -->
+    <h2 class="section-title">
+      Phase 1: Comms, Intel &amp; Scripts
+      <span class="section-badge">Mandatory Setup</span>
+    </h2>
+
+    <div class="checklist-grid">
+
+      <!-- 1. Faction Discord -->
+      <article class="task-card" data-task-id="discord">
+        <div class="task-header">
+          <label class="checkbox-label">
+            <input type="checkbox" class="progress-check" data-id="discord" />
+            1. Join the Infernum Perdition Discord
+          </label>
+          <a id="discordLink" href="https://discord.gg/9NJWbjQBxN" target="_blank" rel="noopener noreferrer" class="btn btn-small">Open Discord Invite</a>
+        </div>
+        <div class="task-body">
+          <p>War calls, chain watches, and faction announcements run through Discord.</p>
+          <ol>
+            <li>Click <strong>Open Discord Invite</strong> and accept the server invite.</li>
+            <li>Run the verification command in the welcome channel so your server nickname matches your <strong>Torn Name [ID]</strong>.</li>
+            <li>Enable notifications for war &amp; chain ping channels.</li>
+          </ol>
+        </div>
+      </article>
+
+      <!-- 2. TornStats -->
+      <article class="task-card" data-task-id="tornstats">
+        <div class="task-header">
+          <label class="checkbox-label">
+            <input type="checkbox" class="progress-check" data-id="tornstats" />
+            2. Register &amp; Sync TornStats
+          </label>
+          <a href="https://www.tornstats.com/" target="_blank" rel="noopener noreferrer" class="btn btn-small">Open TornStats</a>
+        </div>
+        <div class="task-body">
+          <p>Used for battle stat tracking, spy sharing, and organized crime readiness.</p>
+          <ol>
+            <li>Go to <strong>tornstats.com</strong> and log in using a Limited or Full Torn API key.</li>
+            <li>Navigate to <strong>Faction</strong> in the left menu and confirm you are linked to Infernum Perdition.</li>
+            <li>Check that your gym gains and stat history sync properly.</li>
+          </ol>
+        </div>
+      </article>
+
+      <!-- 3. YATA -->
+      <article class="task-card" data-task-id="yata">
+        <div class="task-header">
+          <label class="checkbox-label">
+            <input type="checkbox" class="progress-check" data-id="yata" />
+            3. Connect Your Account to YATA
+          </label>
+          <a href="https://yata.yt/" target="_blank" rel="noopener noreferrer" class="btn btn-small">Open YATA</a>
+        </div>
+        <div class="task-body">
+          <p>YATA handles faction war target lists, armory tracking, and travel stock intel.</p>
+          <ol>
+            <li>Visit <strong>yata.yt</strong> and sign in with your Torn API key.</li>
+            <li>Open the <strong>Faction</strong> tab to verify your membership status syncs.</li>
+            <li>Keep your key active so your target availability and travel data update during wars.</li>
+          </ol>
+        </div>
+      </article>
+
+      <!-- 4. CAT Script -->
+      <article class="task-card" data-task-id="cat-script">
+        <div class="task-header">
+          <label class="checkbox-label">
+            <input type="checkbox" class="progress-check" data-id="cat-script" />
+            4. Install &amp; Configure the CAT Script
+          </label>
+          <a id="catScriptLink" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-small">Get CAT Script</a>
+        </div>
+        <div class="task-body">
+          <p>
+            <strong>CAT</strong> is our core faction combat &amp; travel userscript. Install it on desktop or mobile:
+          </p>
+          <ol>
+            <li><strong>Desktop (Chrome/Firefox/Edge):</strong> Install the <a href="https://www.tampermonkey.net/" target="_blank" rel="noopener noreferrer" style="color: var(--ember-accent);">Tampermonkey</a> browser extension, then click <strong>Get CAT Script</strong> and hit <em>Install</em>.</li>
+            <li><strong>Mobile (TornPDA):</strong> Open <em>Settings &rarr; Advanced Browser Settings &rarr; Manage Scripts</em>, tap <strong>+</strong>, and paste the CAT script URL or source code.</li>
+            <li>Open Torn, open CAT's <strong>Settings</strong>, and verify your preferred modules:</li>
+          </ol>
+
+          <div class="feature-pills">
+            <div class="pill"><span>Fast Attack:</span> One-button fight &amp; finish (Leave/Mug/Hosp)</div>
+            <div class="pill"><span>Auto Call:</span> Auto-claims uncalled war targets</div>
+            <div class="pill"><span>Travel Assist:</span> Best trip picker, auto-pack &amp; restock alerts</div>
+            <div class="pill"><span>Attack Page:</span> Enemy weapon bonuses &amp; loadout display</div>
+            <div class="pill"><span>Table Tools:</span> Online/Idle/Offline counter &amp; Dot Row Style</div>
+            <div class="pill"><span>Always-On Links:</span> Clickable Attack links in hosp/jail/abroad</div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- Phase 2: Briefing Decks (Google Slides / PowerPoint Presentations) -->
+    <h2 class="section-title">
+      Phase 2: I.P.T.C Tactical Briefings
+      <span class="section-badge">Complete All Decks</span>
+    </h2>
+
+    <div id="deckGrid" class="deck-grid">
+      <!-- Populated dynamically from PRESENTATIONS config below -->
+    </div>
+
+    <!-- Phase 3: Graduation / Completion Report -->
+    <section id="graduationSection" class="grad-box hidden">
+      <h2>All Training Modules Complete</h2>
+      <p style="color: var(--text-muted); font-size: 0.92rem;">
+        Copy your clearance report below and paste it into the I.P.T.C graduation channel on Discord so leadership can sign off your promotion.
+      </p>
+      <pre id="completionReport"></pre>
+      <button id="copyReportBtn" class="btn" type="button">Copy Clearance Report</button>
+    </section>
+
+  </main>
+
+  <!-- Presentation Viewer Modal -->
+  <div id="slideModal" class="modal-backdrop hidden">
+    <div class="modal-box">
+      <div class="modal-header">
+        <strong id="modalDeckTitle">Briefing Deck</strong>
+        <button id="closeModalBtn" class="btn btn-secondary btn-small" type="button">Close Viewer</button>
+      </div>
+      <iframe id="slideFrame" class="slide-frame" allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <script>
+    // =========================================================
+    // 1. FACTION CONFIGURATION (EDIT THESE VALUES)
+    // =========================================================
+    const CONFIG = {
+      // Add Infernum Perdition & IPTC Faction IDs here, e.g. [12345, 67890]
+      // Leave empty [] during initial testing to allow any valid Torn API key
+      ALLOWED_FACTION_IDS: [],
+
+      DISCORD_INVITE_URL: "https://discord.gg/9NJWbjQBxN",
+      TORNSTATS_URL: "https://www.tornstats.com/",
+      YATA_URL: "https://yata.yt/",
+      CAT_SCRIPT_URL: "#cat-script-url-here",
+
+      // Placeholder Google Slides embed URLs (replace with File > Share > Publish to web > Embed links)
+      PRESENTATIONS: [
+        {
+          id: "deck-1",
+          title: "Briefing 01: Welcome to Infernum & Chain Etiquette",
+          description: "Core faction rules, chain watching basics, and keeping hits flowing.",
+          embedUrl: "https://docs.google.com/presentation/d/e/PLACEHOLDER_SLIDES_DECK_1/embed?start=false&loop=false&delayms=3000"
+        },
+        {
+          id: "deck-2",
+          title: "Briefing 02: Ranked War & CAT Calling Protocols",
+          description: "How Auto Call, Force Uncall, Hospital Call Windows, and Fast Attack work together.",
+          embedUrl: "https://docs.google.com/presentation/d/e/PLACEHOLDER_SLIDES_DECK_2/embed?start=false&loop=false&delayms=3000"
+        },
+        {
+          id: "deck-3",
+          title: "Briefing 03: Travel Income, Xanax & Med Cooldowns",
+          description: "Using CAT Travel Assist, managing drug/booster cooldowns, and self-hosping safely.",
+          embedUrl: "https://docs.google.com/presentation/d/e/PLACEHOLDER_SLIDES_DECK_3/embed?start=false&loop=false&delayms=3000"
+        }
+      ]
+    };
+
+    // =========================================================
+    // 2. STATE & STORAGE KEYS
+    // =========================================================
+    const STORAGE_KEY_API = "iptc_torn_api_key";
+    const STORAGE_KEY_USER = "iptc_torn_user_profile";
+    const STORAGE_KEY_PROGRESS = "iptc_training_progress";
+
+    let currentUser = null;
+    let completedTasks = JSON.parse(localStorage.getItem(STORAGE_KEY_PROGRESS) || "{}");
+
+    // =========================================================
+    // 3. INITIALIZATION & API GATEKEEPER
+    // =========================================================
+    document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("discordLink").href = CONFIG.DISCORD_INVITE_URL;
+      document.getElementById("catScriptLink").href = CONFIG.CAT_SCRIPT_URL;
+
+      renderPresentations();
+      bindChecklistEvents();
+
+      const savedKey = localStorage.getItem(STORAGE_KEY_API);
+      if (savedKey) {
+        verifyTornApiKey(savedKey, true);
+      }
+
+      document.getElementById("apiLoginForm").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const key = document.getElementById("apiKeyInput").value.trim();
+        if (key) verifyTornApiKey(key, false);
+      });
+
+      document.getElementById("logoutBtn").addEventListener("click", () => {
+        localStorage.removeItem(STORAGE_KEY_API);
+        localStorage.removeItem(STORAGE_KEY_USER);
+        location.reload();
+      });
+
+      document.getElementById("closeModalBtn").addEventListener("click", () => {
+        document.getElementById("slideFrame").src = "";
+        document.getElementById("slideModal").classList.add("hidden");
+      });
+
+      document.getElementById("copyReportBtn").addEventListener("click", () => {
+        const text = document.getElementById("completionReport").textContent;
+        navigator.clipboard.writeText(text).then(() => {
+          const btn = document.getElementById("copyReportBtn");
+          btn.textContent = "Copied to Clipboard!";
+          setTimeout(() => (btn.textContent = "Copy Clearance Report"), 2000);
+        });
+      });
+    });
+
+    async function verifyTornApiKey(apiKey, isAutoLogin) {
+      const btn = document.getElementById("verifyBtn");
+      const errorBox = document.getElementById("gateError");
+      errorBox.classList.add("hidden");
+      btn.disabled = true;
+      btn.textContent = "Checking Torn API...";
+
+      try {
+        const res = await fetch(`https://api.torn.com/user/?selections=profile&key=${encodeURIComponent(apiKey)}`);
+        const data = await res.json();
+
+        if (data.error) {
+          throw new Error(`Torn API Error (${data.error.code}): ${data.error.error}`);
+        }
+
+        const factionId = data.faction?.faction_id || 0;
+        const allowed =
+          CONFIG.ALLOWED_FACTION_IDS.length === 0 ||
+          CONFIG.ALLOWED_FACTION_IDS.includes(factionId);
+
+        if (!allowed) {
+          throw new Error(
+            `Access Denied: ${data.name} [${data.player_id}] is not listed in an authorized Infernum Perdition faction.`
+          );
+        }
+
+        currentUser = {
+          name: data.name,
+          id: data.player_id,
+          factionName: data.faction?.faction_name || "Infernum Perdition",
+          position: data.faction?.position || "Recruit"
+        };
+
+        localStorage.setItem(STORAGE_KEY_API, apiKey);
+        localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(currentUser));
+
+        unlockPortal();
+      } catch (err) {
+        if (isAutoLogin) {
+          localStorage.removeItem(STORAGE_KEY_API);
+        }
+        errorBox.textContent = err.message;
+        errorBox.classList.remove("hidden");
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Verify Faction Access";
+      }
+    }
+
+    function unlockPortal() {
+      document.getElementById("gateScreen").classList.add("hidden");
+      document.getElementById("portalScreen").classList.remove("hidden");
+      document.getElementById("userControls").classList.remove("hidden");
+
+      document.getElementById("userBadge").textContent =
+        `${currentUser.name} [${currentUser.id}] • ${currentUser.position}`;
+
+      syncUIProgress();
+    }
+
+    // =========================================================
+    // 4. PRESENTATIONS & PROGRESS TRACKING
+    // =========================================================
+    function renderPresentations() {
+      const grid = document.getElementById("deckGrid");
+      grid.innerHTML = "";
+
+      CONFIG.PRESENTATIONS.forEach((deck) => {
+        const card = document.createElement("article");
+        card.className = "deck-card";
+        card.dataset.taskId = deck.id;
+
+        card.innerHTML = `
+          <div>
+            <h3>${deck.title}</h3>
+            <p>${deck.description}</p>
+          </div>
+          <div class="deck-actions">
+            <button type="button" class="btn btn-secondary btn-small open-deck-btn">View Slides</button>
+            <label class="checkbox-label" style="font-size: 0.85rem;">
+              <input type="checkbox" class="progress-check" data-id="${deck.id}" />
+              Completed
+            </label>
+          </div>
+        `;
+
+        card.querySelector(".open-deck-btn").addEventListener("click", () => {
+          document.getElementById("modalDeckTitle").textContent = deck.title;
+          document.getElementById("slideFrame").src = deck.embedUrl;
+          document.getElementById("slideModal").classList.remove("hidden");
+        });
+
+        grid.appendChild(card);
+      });
+    }
+
+    function bindChecklistEvents() {
+      document.addEventListener("change", (e) => {
+        if (!e.target.classList.contains("progress-check")) return;
+        const id = e.target.dataset.id;
+        completedTasks[id] = e.target.checked;
+        localStorage.setItem(STORAGE_KEY_PROGRESS, JSON.stringify(completedTasks));
+        syncUIProgress();
+      });
+    }
+
+    function syncUIProgress() {
+      const checkboxes = document.querySelectorAll(".progress-check");
+      let total = checkboxes.length;
+      let done = 0;
+
+      checkboxes.forEach((cb) => {
+        const id = cb.dataset.id;
+        const isDone = Boolean(completedTasks[id]);
+        cb.checked = isDone;
+        if (isDone) done++;
+
+        const parentCard = cb.closest("[data-task-id]");
+        if (parentCard) {
+          parentCard.classList.toggle("completed", isDone);
+        }
+      });
+
+      const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+      document.getElementById("progressPercent").textContent = `${pct}% (${done}/${total})`;
+      document.getElementById("progressFill").style.width = `${pct}%`;
+
+      const gradSection = document.getElementById("graduationSection");
+      if (pct === 100 && currentUser) {
+        gradSection.classList.remove("hidden");
+        const dateStr = new Date().toISOString().split("T")[0];
+        document.getElementById("completionReport").textContent =
+          `[I.P.T.C TRAINING CLEARANCE REPORT]\n` +
+          `Recruit: ${currentUser.name} [${currentUser.id}]\n` +
+          `Faction: ${currentUser.factionName} (${currentUser.position})\n` +
+          `Setup Verified: Discord, TornStats, YATA, CAT Userscript\n` +
+          `Briefings Completed: ${CONFIG.PRESENTATIONS.length}/${CONFIG.PRESENTATIONS.length}\n` +
+          `Date: ${dateStr}`;
+      } else {
+        gradSection.classList.add("hidden");
+      }
+    }
+  </script>
+</body>
+</html>
